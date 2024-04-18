@@ -13,10 +13,11 @@ fun Application.petRoutes() {
         authenticate {
             route("/pet") {
                 get {
+                    call.respondText("Hello!")
+
 //                    val principal = call.principal<JWTPrincipal>()
 //                    val email = principal!!.payload.getClaim("email").asString()
 //                    val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
-                    call.respondText("Hello!")
 //                    call.respondText("Hello, $email! Token is expired at $expiresAt ms.")
 
 //            if (customerStorage.isNotEmpty()) {

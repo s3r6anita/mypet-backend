@@ -5,12 +5,11 @@ import ru.mypet.data.db.CreateUserParams
 import ru.mypet.data.db.daos.UserDAO
 import ru.mypet.data.db.daos.UserDAOImpl
 import ru.mypet.models.TokenCache
-import ru.mypet.security.TokenManager
+import ru.mypet.security.JwtConfig
 import ru.mypet.utils.BaseResponse
 import ru.mypet.utils.isValidEmail
 
 class UserRepositoryImpl(
-    private val tokenManager: TokenManager = TokenManager,
     private val userDAO: UserDAO = UserDAOImpl()
 ) : UserRepository {
     override suspend fun registerUser(params: CreateUserParams): BaseResponse<Any> {
@@ -21,7 +20,7 @@ class UserRepositoryImpl(
             } else {
                 val user = userDAO.insert(params)
                 if (user != null) {
-                    val token = tokenManager.generateToken(user.email)
+                    val token = JwtConfig.instance.generateToken(user.email)
                     InMemoryCache.token.add(TokenCache(user.email, token))
                     BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token))
                 } else {
