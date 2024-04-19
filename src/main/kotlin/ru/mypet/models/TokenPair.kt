@@ -1,6 +1,6 @@
 package ru.mypet.models
 
-data class TokenCache(
+data class TokenPair(
     val email: String,
     val token: String
 )

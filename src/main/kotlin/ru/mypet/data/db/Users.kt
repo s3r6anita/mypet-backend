@@ -17,6 +17,11 @@ data class CreateUserParams(
     val name: String
 )
 
+data class LoginUserParams(
+    val email: String,
+    val password: String
+)
+
 object Users: Table("users") {
     val email = varchar("email", 30)
     val password = text("password")

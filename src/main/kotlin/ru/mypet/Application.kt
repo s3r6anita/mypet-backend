@@ -16,7 +16,5 @@ fun main() {
         configureSerialization()
         configureSecurity()
         configureRouting()
-        authRoutes()
-        petRoutes()
     }.start(wait = true)
 }

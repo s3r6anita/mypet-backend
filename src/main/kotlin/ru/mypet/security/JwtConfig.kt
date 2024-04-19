@@ -32,6 +32,7 @@ class JwtConfig private constructor() {
 
     companion object {
         private val config = HoconApplicationConfig(ConfigFactory.load())
+        val realm = config.property("ktor.security.realm").getString()
         val secret = config.property("ktor.security.jwt.secret").getString()
         val issuer = config.property("ktor.security.jwt.issuer").getString()
         val audience = config.property("ktor.security.jwt.audience").getString()

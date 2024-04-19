@@ -1,18 +1,14 @@
 package ru.mypet.plugins
 
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.mypet.cache.InMemoryCache
-import ru.mypet.models.LoginRequest
-import ru.mypet.models.RegisterRequest
-import ru.mypet.models.TokenCache
-import ru.mypet.utils.isValidEmail
+import ru.mypet.routes.authRoutes
 
 fun Application.configureRouting() {
+    routing {
+        authRoutes()
+    }
+}
 
 //    routing {
 //        authenticate {
@@ -35,9 +31,9 @@ fun Application.configureRouting() {
 //
 //            if (user != null) {
 //                if (loginRequest.password == user.password) {
-//                    val token = tokenManager.generateToken(loginRequest.email)
-//                    InMemoryCache.token.add(TokenCache(username = loginRequest.email, token = token))
-//                    call.respond(hashMapOf("Token" to token))
+//                    val tokens = tokenManager.generateToken(loginRequest.email)
+//                    InMemoryCache.tokens.add(TokenPair(username = loginRequest.email, tokens = tokens))
+//                    call.respond(hashMapOf("Token" to tokens))
 //                } else {
 //                    call.respond(HttpStatusCode.BadRequest, "Invalid password")
 //                }
@@ -55,10 +51,10 @@ fun Application.configureRouting() {
 //                if (InMemoryCache.userList.map { it.email }.contains(loginRequest.email)) {
 //                    call.respond(HttpStatusCode.Conflict, "User already exists")
 //                } else {
-//                    val token = tokenManager.generateToken(loginRequest.email)
+//                    val tokens = tokenManager.generateToken(loginRequest.email)
 //                    InMemoryCache.userList.add(loginRequest)
-//                    InMemoryCache.token.add(TokenCache(username = loginRequest.email, token = token))
-//                    call.respond(hashMapOf("Token" to token))
+//                    InMemoryCache.tokens.add(TokenPair(username = loginRequest.email, tokens = tokens))
+//                    call.respond(hashMapOf("Token" to tokens))
 //                }
 //            }
 //        }
@@ -74,9 +70,9 @@ fun Application.configureRouting() {
 //                call.respond(HttpStatusCode.BadRequest, "Invalid login")
 //            } else {
 //                if (user.password == receive.password) {
-//                    val token = UUID.randomUUID().toString()
-//                    InMemoryCache.token.add(TokenCache(login = receive.login,token = token))
-//                    call.respond(LoginResponseRemote(token = token))
+//                    val tokens = UUID.randomUUID().toString()
+//                    InMemoryCache.tokens.add(TokenPair(login = receive.login,tokens = tokens))
+//                    call.respond(LoginResponseRemote(tokens = tokens))
 //                } else
 //                    call.respond(HttpStatusCode.BadRequest, "Invalid password")
 //            }
@@ -94,11 +90,10 @@ fun Application.configureRouting() {
 //            if (InMemoryCache.userList.map { it.login }.contains(receive.login)) {
 //                call.respond(HttpStatusCode.Conflict, "User already exists")
 //            }
-//            val token = UUID.randomUUID().toString()
+//            val tokens = UUID.randomUUID().toString()
 //            InMemoryCache.userList.add(receive)
-//            InMemoryCache.token.add(TokenCache(login = receive.login, token = token))
+//            InMemoryCache.tokens.add(TokenPair(login = receive.login, tokens = tokens))
 //
-//            call.respond(RegisterResponseRemote(token = token))
+//            call.respond(RegisterResponseRemote(tokens = tokens))
 //        }
 //    }
-}

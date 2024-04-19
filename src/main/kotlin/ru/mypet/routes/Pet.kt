@@ -8,12 +8,11 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlin.text.get
 
-fun Application.petRoutes() {
-    routing {
-        authenticate {
-            route("/pet") {
-                get {
-                    call.respondText("Hello!")
+fun Route.petRoutes() {
+    authenticate {
+        route("/pet") {
+            get {
+                call.respondText("Hello!")
 
 //                    val principal = call.principal<JWTPrincipal>()
 //                    val email = principal!!.payload.getClaim("email").asString()
@@ -25,7 +24,7 @@ fun Application.petRoutes() {
 //            } else {
 //                call.respondText("No customers found", status = HttpStatusCode.OK)
 //            }
-                }
+            }
 //                get("{id?}") {
 //
 //                }
@@ -35,7 +34,6 @@ fun Application.petRoutes() {
 //                delete("{id?}") {
 //
 //                }
-            }
         }
     }
 }

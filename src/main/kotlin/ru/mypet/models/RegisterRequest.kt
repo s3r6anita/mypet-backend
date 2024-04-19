@@ -7,5 +7,5 @@ data class RegisterRequest(
 )
 
 //data class RegisterResponseRemote(
-//    val token: String
+//    val tokens: String
 //)
