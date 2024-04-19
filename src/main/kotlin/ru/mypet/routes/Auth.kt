@@ -1,6 +1,5 @@
 package ru.mypet.routes
 
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -8,12 +7,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ru.mypet.data.db.CreateUserParams
 import ru.mypet.data.db.LoginUserParams
-import ru.mypet.models.Token
 import ru.mypet.models.TokenPair
 import ru.mypet.repository.UserRepository
 import ru.mypet.repository.UserRepositoryImpl
-import ru.mypet.security.JwtConfig
-import ru.mypet.utils.BaseResponse
 
 fun Route.authRoutes(
     repository: UserRepository = UserRepositoryImpl()

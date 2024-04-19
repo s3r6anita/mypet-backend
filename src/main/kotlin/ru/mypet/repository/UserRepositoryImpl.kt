@@ -52,17 +52,17 @@ class UserRepositoryImpl(
         }
     }
 
-//    override suspend fun refreshTokenUser(params: TokenPair): BaseResponse<Any> {
-//        val token = InMemoryCache.tokens.firstOrNull{ it == params }
-//        return if (token != null) {
-//            InMemoryCache.tokens.remove(token)
-//            val newToken = JwtConfig.instance.generateToken(params.email)
-//            InMemoryCache.tokens.add(TokenPair(params.email, newToken))
-//            BaseResponse.SuccessResponse(data = params, hash = hashMapOf("token" to newToken))
-//        } else {
-//            BaseResponse.ErrorResponse(msg = "Invalid email or token")
-//        }
-//    }
+    override suspend fun refreshTokenUser(params: TokenPair): BaseResponse<Any> {
+        val token = InMemoryCache.tokens.firstOrNull{ it == params }
+        return if (token != null) {
+            InMemoryCache.tokens.remove(token)
+            val newToken = JwtConfig.instance.generateToken(params.email)
+            InMemoryCache.tokens.add(TokenPair(params.email, newToken))
+            BaseResponse.SuccessResponse(data = params, hash = hashMapOf("token" to newToken))
+        } else {
+            BaseResponse.ErrorResponse(msg = "Invalid email or token")
+        }
+    }
 
     private suspend fun isEmailExist(email: String): Boolean = userDAO.user(email) != null
 }
