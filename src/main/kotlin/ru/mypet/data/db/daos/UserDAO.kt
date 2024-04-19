@@ -7,6 +7,6 @@ interface UserDAO {
     suspend fun getAll(): List<User>
     suspend fun user(email: String): User?
     suspend fun insert(params: CreateUserParams): User?
-    suspend fun delete(user: User): Boolean
-    //    suspend fun edit(user: User): Boolean
+    suspend fun update(user: User): Boolean
+    suspend fun delete(email: String): Boolean
 }

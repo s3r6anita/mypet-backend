@@ -2,10 +2,10 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.data.db.Users
 import ru.mypet.data.db.CreateUserParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
-import ru.mypet.data.db.User
+import ru.mypet.data.db.Users
+import ru.mypet.models.User
 import ru.mypet.security.hash
 
 class UserDAOImpl : UserDAO {
@@ -21,10 +21,7 @@ class UserDAOImpl : UserDAO {
 
     override suspend fun user(email: String): User? {
         val user = dbQuery {
-            Users
-                .select {Users.email eq email}
-                .map(::resultRowToUser)
-                .singleOrNull()
+            Users.select { Users.email eq email }.map(::resultRowToUser).singleOrNull()
         }
         return user
     }
@@ -38,7 +35,15 @@ class UserDAOImpl : UserDAO {
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToUser)
     }
 
-    override suspend fun delete(user: User): Boolean = dbQuery {
-        Users.deleteWhere { Users.email.eq(email) } > 0
+    override suspend fun update(user: User): Boolean = dbQuery {
+        Users.update({ Users.email eq user.email }) {
+            it[Users.email] = user.email
+            it[Users.password] = user.password
+            it[Users.name] = user.name
+        } > 0
+    }
+
+    override suspend fun delete(email: String): Boolean = dbQuery {
+        Users.deleteWhere { Users.email eq email } > 0
     }
 }
