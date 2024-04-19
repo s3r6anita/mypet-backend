@@ -1,15 +1,7 @@
 package ru.mypet.data.db
 
 import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.javatime.datetime
-import java.time.LocalDateTime
 
-data class User(
-    val email: String,
-    val password: String,
-    val name: String,
-//    val authToken: String? = null
-)
 
 data class CreateUserParams(
     val email: String,

@@ -1,7 +1,7 @@
 package ru.mypet.data.db.daos
 
 import ru.mypet.data.db.CreateUserParams
-import ru.mypet.data.db.User
+import ru.mypet.models.User
 
 interface UserDAO {
     suspend fun getAll(): List<User>

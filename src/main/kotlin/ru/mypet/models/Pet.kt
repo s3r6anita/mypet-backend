@@ -3,6 +3,7 @@ package ru.mypet.models
 import java.time.LocalDateTime
 
 data class Pet(
+    val id: Int = 0,
     val name: String,
     val kind: String, // кошка собака морж
     val breed: String, // порода
@@ -11,5 +12,4 @@ data class Pet(
     val color: String, // окрас
     val coat: String, // вид шерсти
     val microchipNumber: String, // 15 цифр
-    val id: Int = 0
 )

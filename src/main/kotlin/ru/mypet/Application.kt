@@ -4,10 +4,8 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import ru.mypet.data.db.DatabaseFactory
 import ru.mypet.plugins.configureRouting
-import ru.mypet.security.configureSecurity
 import ru.mypet.plugins.configureSerialization
-import ru.mypet.routes.authRoutes
-import ru.mypet.routes.petRoutes
+import ru.mypet.security.configureSecurity
 
 fun main() {
     embeddedServer(
