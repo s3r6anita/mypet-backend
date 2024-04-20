@@ -1,9 +1,9 @@
 package ru.mypet.repository
 
 import ru.mypet.data.db.CreatePetParams
+import ru.mypet.data.db.UpdatePetParams
 import ru.mypet.data.db.daos.PetDAO
 import ru.mypet.data.db.daos.PetDAOImpl
-import ru.mypet.models.Pet
 import ru.mypet.utils.BaseResponse
 
 class PetRepositoryImpl(
@@ -14,16 +14,20 @@ class PetRepositoryImpl(
         return BaseResponse.SuccessResponse(data = pets)
     }
 
-    override suspend fun findById(id: Int): BaseResponse<Any> {
+    override suspend fun findById(id: Int, requester: String): BaseResponse<Any> {
         val pet = petDAO.getById(id)
         return if (pet != null)
-            BaseResponse.SuccessResponse(data = pet)
+            if (pet.owner == requester)
+                BaseResponse.SuccessResponse(data = pet)
+            else
+                BaseResponse.ErrorResponse(msg = "This is not your pet")
         else
             BaseResponse.ErrorResponse(msg = "No such pet")
     }
 
-    override suspend fun createPet(params: CreatePetParams): BaseResponse<Any> {
-        val pet = petDAO.insert(params)
+    override suspend fun createPet(params: CreatePetParams, requester: String): BaseResponse<Any> {
+        val paramsWithRequester = params.setOwner(requester)
+        val pet = petDAO.insert(paramsWithRequester)
         return if (pet != null) {
             BaseResponse.SuccessResponse(data = pet)
         } else {
@@ -31,27 +35,35 @@ class PetRepositoryImpl(
         }
     }
 
-    override suspend fun updatePet(pet: Pet): BaseResponse<Any> {
-        val petById = petDAO.getById(pet.id)
+    override suspend fun updatePet(params: UpdatePetParams, requester: String): BaseResponse<Any> {
+        val petById = petDAO.getById(params.id)
         return if (petById != null) {
-            val update = petDAO.update(petById)
-            if (update)
-                BaseResponse.SuccessResponse(msg = "Updated successfully")
-            else
-                BaseResponse.ErrorResponse(msg = "Something went wrong")
+            if (petById.owner == requester) {
+                val update = petDAO.update(params)
+                if (update)
+                    BaseResponse.SuccessResponse(msg = "Updated successfully")
+                else
+                    BaseResponse.ErrorResponse(msg = "Something went wrong")
+            } else {
+                BaseResponse.ErrorResponse(msg = "This is not your pet")
+            }
         } else {
             BaseResponse.ErrorResponse(msg = "No such pet")
         }
     }
 
-    override suspend fun deletePet(id: Int): BaseResponse<Any> {
+    override suspend fun deletePet(id: Int, requester: String): BaseResponse<Any> {
         val pet = petDAO.getById(id)
         return if (pet != null) {
-            val delete = petDAO.delete(id)
-            if (delete)
-                BaseResponse.SuccessResponse(msg = "Deleted successfully")
-            else
-                BaseResponse.ErrorResponse(msg = "Something went wrong")
+            if (pet.owner == requester) {
+                val delete = petDAO.delete(id)
+                if (delete)
+                    BaseResponse.SuccessResponse(msg = "Deleted successfully")
+                else
+                    BaseResponse.ErrorResponse(msg = "Something went wrong")
+            } else {
+                BaseResponse.ErrorResponse(msg = "This is not your pet")
+            }
         } else {
             BaseResponse.ErrorResponse(msg = "No such pet")
         }

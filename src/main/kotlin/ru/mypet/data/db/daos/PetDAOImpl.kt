@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import ru.mypet.data.db.CreatePetParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
 import ru.mypet.data.db.Pets
+import ru.mypet.data.db.UpdatePetParams
 import ru.mypet.models.Pet
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDate
@@ -52,7 +53,7 @@ class PetDAOImpl : PetDAO {
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToPet)
     }
 
-    override suspend fun update(pet: Pet): Boolean = dbQuery {
+    override suspend fun update(pet: UpdatePetParams): Boolean = dbQuery {
         Pets.update({ Pets.id eq pet.id }) {
             it[name] = pet.name
             it[kind] = pet.kind

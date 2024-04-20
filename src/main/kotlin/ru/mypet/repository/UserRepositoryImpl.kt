@@ -23,7 +23,7 @@ class UserRepositoryImpl(
                 if (user != null) {
                     val token = JwtConfig.instance.generateToken(user.email)
                     InMemoryCache.tokens.add(TokenPair(user.email, token))
-                    BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token))
+                    BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token)) // TODO убрать
                 } else {
                     BaseResponse.ErrorResponse()
                 }
@@ -40,7 +40,7 @@ class UserRepositoryImpl(
                 if (hash(params.password) == user.password) {
                     val token = JwtConfig.instance.generateToken(user.email)
                     InMemoryCache.tokens.add(TokenPair(user.email, token))
-                    BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token))
+                    BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token)) // TODO убрать
                 } else {
                     BaseResponse.ErrorResponse(msg = "Invalid password")
                 }

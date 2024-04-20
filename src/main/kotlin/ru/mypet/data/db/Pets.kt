@@ -4,17 +4,29 @@ import org.jetbrains.exposed.sql.Table
 
 data class CreatePetParams(
     val name: String,
-    val kind: String, // кошка собака морж
-    val breed: String, // порода
-    val sex: String, // "Самка" | "Самец"
-    val birthday: String,                     // can be error there
-    val color: String, // окрас
-    val coat: String, // вид шерсти
-    val microchipNumber: String, // 15 цифр
+    val kind: String,
+    val breed: String,
+    val sex: String,
+    val birthday: String,
+    val color: String,
+    val coat: String,
+    val microchipNumber: String,
     val owner: String? = null
 ) {
     fun setOwner(owner: String): CreatePetParams = this.copy(owner = owner)
 }
+
+data class UpdatePetParams(
+    val id: Int,
+    val name: String,
+    val kind: String,
+    val breed: String,
+    val sex: String,
+    val birthday: String,
+    val color: String,
+    val coat: String,
+    val microchipNumber: String
+)
 
 object Pets: Table("pets") {
     val id = integer("id").autoIncrement().uniqueIndex()
