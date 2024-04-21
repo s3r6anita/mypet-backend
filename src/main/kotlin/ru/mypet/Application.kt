@@ -1,16 +1,19 @@
 package ru.mypet
 
-import io.ktor.server.cio.*
+import com.typesafe.config.ConfigFactory
+import io.ktor.server.config.*
 import io.ktor.server.engine.*
+import io.ktor.server.netty.*
 import ru.mypet.data.db.DatabaseFactory
 import ru.mypet.plugins.configureRouting
 import ru.mypet.plugins.configureSerialization
 import ru.mypet.security.configureSecurity
 
 fun main() {
-    embeddedServer(
-        CIO, port = 8080, host = "0.0.0.0") {
-        DatabaseFactory.init()
+    val config = HoconApplicationConfig(ConfigFactory.load())
+    val port = config.property("ktor.deployment.port").getString()
+    embeddedServer(Netty, port = port.toInt()) {
+        DatabaseFactory.init(config)
         configureSerialization()
         configureSecurity()
         configureRouting()

@@ -45,8 +45,36 @@ dependencies {
 //    implementation("io.ktor:ktor-server-resources:$ktor_version")
 
 
-    implementation("io.ktor:ktor-server-cio-jvm")
+    implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+tasks.create("stage") {
+    dependsOn("installDist")
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("fat.jar")
+    }
+
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+        portMappings.set(listOf(
+            io.ktor.plugin.features.DockerPortMapping(
+                80,
+                8080,
+                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+            )
+        ))
+        externalRegistry.set(
+            io.ktor.plugin.features.DockerImageRegistry.dockerHub(
+                appName = providers.environmentVariable("APP_BASE_NAME"),
+                username = providers.environmentVariable("DOCKER_HUB_USERNAME"),
+                password = providers.environmentVariable("DOCKER_HUB_PASSWORD")
+            )
+        )
+    }
 }

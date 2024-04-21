@@ -1,26 +1,24 @@
 package ru.mypet.data.db
 
-import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object DatabaseFactory {
 
-    fun init() {
-        Database.connect(createHikariDataSource())
+    fun init(config: HoconApplicationConfig) {
+        Database.connect(createHikariDataSource(config))
         transaction {
             SchemaUtils.create(Users)
         }
     }
 
-    private val config = HoconApplicationConfig(ConfigFactory.load())
-
-    private fun createHikariDataSource() =
+    private fun createHikariDataSource(config: HoconApplicationConfig) =
         HikariDataSource(HikariConfig().apply {
             driverClassName = config.property("ktor.storage.driverClassName").getString()
             jdbcUrl = config.property("ktor.storage.jdbcURL").getString()

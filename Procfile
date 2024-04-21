@@ -1,0 +1,1 @@
+web: ./build/install/ru.mypet.mypet-backend/bin/ru.mypet.mypet-backend
