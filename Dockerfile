@@ -1,7 +1,7 @@
 FROM gradle:8.4-jdk17 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle buildFatJar --no-daemon
+RUN gradle buildFatJar
 
 FROM openjdk:21
 EXPOSE 80:80
