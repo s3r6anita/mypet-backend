@@ -5,5 +5,5 @@ RUN gradle buildFatJar
 
 FROM openjdk:21
 EXPOSE 80:80
-COPY ./build/libs/fat.jar app.jar
+COPY --from=build /libs/fat.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
