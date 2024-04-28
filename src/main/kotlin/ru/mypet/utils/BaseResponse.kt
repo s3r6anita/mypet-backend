@@ -3,16 +3,18 @@ package ru.mypet.utils
 import io.ktor.http.*
 
 sealed class BaseResponse<T>(
-    val statusCode: HttpStatusCode = HttpStatusCode.OK
+    @Transient // to exclude from serialization
+    val statusCode: HttpStatusCode
 ) {
     data class SuccessResponse<T>(
-        val data: T? = null,
-        val msg: String? = null,
-        val hash: HashMap<String, String>? = null
-    ) : BaseResponse<T>()
+        val data: T? = null
+    ) : BaseResponse<T>(
+        statusCode = HttpStatusCode.OK
+    )
 
     data class ErrorResponse<T>(
-        val exception: T? = null,
+        @Transient // to exclude from serialization
+        private val errorStatusCode: HttpStatusCode = HttpStatusCode.BadRequest,
         val msg: String? = null
-    ) : BaseResponse<T>(/**statusCode = HttpStatusCode.BadRequest*/)
+    ) : BaseResponse<T>(errorStatusCode)
 }

@@ -1,5 +1,6 @@
 package ru.mypet.repository
 
+import io.ktor.http.*
 import ru.mypet.cache.InMemoryCache
 import ru.mypet.data.db.CreateUserParams
 import ru.mypet.data.db.LoginUserParams
@@ -17,15 +18,15 @@ class UserRepositoryImpl(
     override suspend fun registerUser(params: CreateUserParams): BaseResponse<Any> {
         return if (params.email.isValidEmail()) {
             if (isEmailExist(params.email)) {
-                BaseResponse.ErrorResponse(msg = "User with such email is already exist")
+                BaseResponse.ErrorResponse(errorStatusCode = HttpStatusCode.Conflict, msg = "User with such email is already exist")
             } else {
                 val user = userDAO.insert(params)
                 if (user != null) {
                     val token = JwtConfig.instance.generateToken(user.email)
                     InMemoryCache.tokens.add(TokenPair(user.email, token))
-                    BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token)) // TODO убрать
+                    BaseResponse.SuccessResponse(data = hashMapOf("token" to token))
                 } else {
-                    BaseResponse.ErrorResponse()
+                    BaseResponse.ErrorResponse(msg = "You are already registered")
                 }
             }
         } else {
@@ -40,7 +41,7 @@ class UserRepositoryImpl(
                 if (hash(params.password) == user.password) {
                     val token = JwtConfig.instance.generateToken(user.email)
                     InMemoryCache.tokens.add(TokenPair(user.email, token))
-                    BaseResponse.SuccessResponse(data = user, hash = hashMapOf("token" to token)) // TODO убрать
+                    BaseResponse.SuccessResponse(data = hashMapOf("hash" to token))
                 } else {
                     BaseResponse.ErrorResponse(msg = "Invalid password")
                 }

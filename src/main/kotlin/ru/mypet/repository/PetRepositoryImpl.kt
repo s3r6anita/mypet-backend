@@ -29,7 +29,7 @@ class PetRepositoryImpl(
         val paramsWithRequester = params.setOwner(requester)
         val pet = petDAO.insert(paramsWithRequester)
         return if (pet != null) {
-            BaseResponse.SuccessResponse(data = pet)
+            BaseResponse.SuccessResponse()
         } else {
             BaseResponse.ErrorResponse()
         }
@@ -41,7 +41,7 @@ class PetRepositoryImpl(
             if (petById.owner == requester) {
                 val update = petDAO.update(params)
                 if (update)
-                    BaseResponse.SuccessResponse(msg = "Updated successfully")
+                    BaseResponse.SuccessResponse()
                 else
                     BaseResponse.ErrorResponse(msg = "Something went wrong")
             } else {
@@ -58,7 +58,7 @@ class PetRepositoryImpl(
             if (pet.owner == requester) {
                 val delete = petDAO.delete(id)
                 if (delete)
-                    BaseResponse.SuccessResponse(msg = "Deleted successfully")
+                    BaseResponse.SuccessResponse()
                 else
                     BaseResponse.ErrorResponse(msg = "Something went wrong")
             } else {
