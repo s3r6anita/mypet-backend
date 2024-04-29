@@ -7,7 +7,8 @@ sealed class BaseResponse<T>(
     val statusCode: HttpStatusCode
 ) {
     data class SuccessResponse<T>(
-        val data: T? = null
+        val data: T? = null,
+//        val msg: String? = null
     ) : BaseResponse<T>(
         statusCode = HttpStatusCode.OK
     )
@@ -15,6 +16,7 @@ sealed class BaseResponse<T>(
     data class ErrorResponse<T>(
         @Transient // to exclude from serialization
         private val errorStatusCode: HttpStatusCode = HttpStatusCode.BadRequest,
+//        val data: T? = null,
         val msg: String? = null
     ) : BaseResponse<T>(errorStatusCode)
 }

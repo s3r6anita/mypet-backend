@@ -2,10 +2,10 @@ package ru.mypet.repository
 
 import io.ktor.http.*
 import ru.mypet.cache.InMemoryCache
-import ru.mypet.data.db.CreateUserParams
-import ru.mypet.data.db.LoginUserParams
 import ru.mypet.data.db.daos.UserDAO
 import ru.mypet.data.db.daos.UserDAOImpl
+import ru.mypet.models.CreateUserParams
+import ru.mypet.models.LoginUserParams
 import ru.mypet.models.TokenPair
 import ru.mypet.security.JwtConfig
 import ru.mypet.security.hash
@@ -41,7 +41,7 @@ class UserRepositoryImpl(
                 if (hash(params.password) == user.password) {
                     val token = JwtConfig.instance.generateToken(user.email)
                     InMemoryCache.tokens.add(TokenPair(user.email, token))
-                    BaseResponse.SuccessResponse(data = hashMapOf("hash" to token))
+                    BaseResponse.SuccessResponse(data = hashMapOf("token" to token))
                 } else {
                     BaseResponse.ErrorResponse(msg = "Invalid password")
                 }

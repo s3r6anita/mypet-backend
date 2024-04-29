@@ -2,9 +2,9 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.data.db.CreateUserParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
 import ru.mypet.data.db.Users
+import ru.mypet.models.CreateUserParams
 import ru.mypet.models.User
 import ru.mypet.security.hash
 
