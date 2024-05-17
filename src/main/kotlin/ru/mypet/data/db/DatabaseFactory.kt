@@ -15,6 +15,7 @@ object DatabaseFactory {
         Database.connect(createHikariDataSource(config))
         transaction {
             SchemaUtils.create(Users)
+            SchemaUtils.create(Procedures)
         }
     }
 

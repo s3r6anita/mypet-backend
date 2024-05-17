@@ -25,10 +25,10 @@ class PetDAOImpl : PetDAO {
     )
 
     override suspend fun getAllByOwner(email: String): List<Pet> {
-        val pet = dbQuery {
+        val pets = dbQuery {
             Pets.select { Pets.owner eq email}.map(::resultRowToPet)
         }
-        return pet
+        return pets
     }
 
     override suspend fun getById(id: Int): Pet? {
