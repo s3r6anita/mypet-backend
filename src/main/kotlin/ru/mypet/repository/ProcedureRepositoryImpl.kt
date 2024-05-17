@@ -17,6 +17,15 @@ class ProcedureRepositoryImpl(
         return BaseResponse.SuccessResponse(data = procedures)
     }
 
+
+    override suspend fun findById(id: Int, requester: String): BaseResponse<Any> {
+        val procedure = procedureDAO.getById(id)
+        return when {
+            procedure == null -> BaseResponse.ErrorResponse(msg = "No such procedure")
+            else -> BaseResponse.SuccessResponse(data = procedure)
+        }
+    }
+
     override suspend fun createProcedure(params: CreateProcedureParams, requester: String): BaseResponse<Any> {
         val procedure = procedureDAO.insert(params)
         return if (procedure != null) {

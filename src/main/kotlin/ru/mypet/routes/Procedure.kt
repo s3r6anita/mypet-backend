@@ -27,6 +27,13 @@ fun Route.procedureRoutes(
                 val result = repository.findAllByOwner(email)
                 call.respond(result.statusCode, result)
             }
+            get("{id?}") { /** излишен (хотя возможно понадобится для экрана профиля) */
+            val id = call.parameters["id"]?.toInt() ?: return@get call.respond(HttpStatusCode.BadRequest)
+                val principal = call.principal<JWTPrincipal>()
+                val email = principal!!.payload.getClaim(claim).asString()
+                val result = repository.findById(id, email)
+                call.respond(result.statusCode, result)
+            }
             post {
                 val params = call.receive<CreateProcedureParams>()
                 val principal = call.principal<JWTPrincipal>()
