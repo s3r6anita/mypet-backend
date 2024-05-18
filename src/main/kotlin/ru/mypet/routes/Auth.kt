@@ -12,6 +12,11 @@ import ru.mypet.repository.UserRepositoryImpl
 fun Route.authRoutes(
     repository: UserRepository = UserRepositoryImpl()
 ) {
+    post("/loginVK") {
+        val params = call.receive<CreateUserParams>()
+        val result = repository.loginUserByVK(params)
+        call.respond(result.statusCode, result)
+    }
     post("/register") {
         val params = call.receive<CreateUserParams>()
         val result = repository.registerUser(params)

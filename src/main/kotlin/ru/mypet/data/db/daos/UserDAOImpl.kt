@@ -12,16 +12,34 @@ class UserDAOImpl : UserDAO {
     private fun resultRowToUser(row: ResultRow) = User(
         email = row[Users.email],
         password = row[Users.password],
-        name = row[Users.name]
+        name = row[Users.name],
+        vkid = row[Users.vkid]
     )
+
+//    override suspend fun createUserByVK(params: CreateUserParams): User? = dbQuery {
+//        val insertStatement = Users.insert {
+//            it[Users.email] = params.email
+//            it[Users.password] = params.password?.let { password -> hash(password) } ?: ""
+//            it[Users.name] = params.name
+//            it[Users.vkid] = params.vkid
+//        }
+//        insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToUser)
+//    }
 
     override suspend fun getAll(): List<User> = dbQuery {
         Users.selectAll().map(::resultRowToUser)
     }
 
-    override suspend fun user(email: String): User? {
+    override suspend fun userByEmail(email: String): User? {
         val user = dbQuery {
             Users.select { Users.email eq email }.map(::resultRowToUser).singleOrNull()
+        }
+        return user
+    }
+
+    override suspend fun userByVKID(vkid: Long): User? {
+        val user = dbQuery {
+            Users.select { Users.vkid eq vkid }.map(::resultRowToUser).singleOrNull()
         }
         return user
     }
@@ -29,8 +47,9 @@ class UserDAOImpl : UserDAO {
     override suspend fun insert(params: CreateUserParams): User? = dbQuery {
         val insertStatement = Users.insert {
             it[Users.email] = params.email
-            it[Users.password] = hash(params.password)
+            it[Users.password] = params.password?.let { password -> hash(password) }
             it[Users.name] = params.name
+            it[Users.vkid] = params.vkid
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToUser)
     }

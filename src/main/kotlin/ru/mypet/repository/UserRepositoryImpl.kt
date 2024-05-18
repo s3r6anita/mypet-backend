@@ -15,6 +15,30 @@ import ru.mypet.utils.isValidEmail
 class UserRepositoryImpl(
     private val userDAO: UserDAO = UserDAOImpl()
 ) : UserRepository {
+
+    override suspend fun loginUserByVK(params: CreateUserParams): BaseResponse<Any> {
+        return if (isEmailExist(params.email)) {
+            val user = userDAO.userByEmail(params.email)
+            if(user != null) {
+                if (user.vkid == params.vkid) {
+                    val token = JwtConfig.instance.generateToken(user.email)
+                    InMemoryCache.tokens.add(TokenPair(user.email, token))
+                    BaseResponse.SuccessResponse(data = hashMapOf("token" to token))
+                } else {
+                    BaseResponse.ErrorResponse(msg = "Invalid email or VKID")
+                }
+            } else {
+                BaseResponse.ErrorResponse(msg = "No such user")
+            }
+        } else {
+            if (params.email != "" && !isVKidExist(params.vkid ?: -1L)) {
+                registerUser(params)
+            } else {
+                BaseResponse.ErrorResponse(msg = "Incorrect email")
+            }
+        }
+    }
+
     override suspend fun registerUser(params: CreateUserParams): BaseResponse<Any> {
         return if (params.email.isValidEmail()) {
             if (isEmailExist(params.email)) {
@@ -36,7 +60,7 @@ class UserRepositoryImpl(
 
     override suspend fun loginUser(params: LoginUserParams): BaseResponse<Any> {
         return if (isEmailExist(params.email)) {
-            val user = userDAO.user(params.email)
+            val user = userDAO.userByEmail(params.email)
             if (user != null) {
                 if (hash(params.password) == user.password) {
                     val token = JwtConfig.instance.generateToken(user.email)
@@ -65,5 +89,6 @@ class UserRepositoryImpl(
 //        }
 //    }
 
-    private suspend fun isEmailExist(email: String): Boolean = userDAO.user(email) != null
+    private suspend fun isEmailExist(email: String): Boolean = userDAO.userByEmail(email) != null
+    private suspend fun isVKidExist(vkid: Long): Boolean = userDAO.userByVKID(vkid) != null
 }
