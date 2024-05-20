@@ -22,7 +22,7 @@ class LocalDateAdapter : TypeAdapter<LocalDate?>() {
             jsonReader.nextNull()
             return null
         } else {
-            return LocalDate.parse(jsonReader.nextString())
+            return LocalDate.parse(jsonReader.nextString(), PetDateTimeFormatter.date)
         }
     }
 }
@@ -32,7 +32,7 @@ class LocalDateTimeAdapter : TypeAdapter<LocalDateTime?>() {
         if (value == null) {
             jsonWriter?.nullValue()
         } else {
-            jsonWriter?.value(value.format(PetDateTimeFormatter.date))
+            jsonWriter?.value(value.format(PetDateTimeFormatter.dateTime))
         }
     }
 
@@ -41,7 +41,7 @@ class LocalDateTimeAdapter : TypeAdapter<LocalDateTime?>() {
             jsonReader.nextNull()
             return null
         } else {
-            return LocalDateTime.parse(jsonReader.nextString())
+            return LocalDateTime.parse(jsonReader.nextString(), PetDateTimeFormatter.dateTime)
         }
     }
 }
