@@ -5,7 +5,8 @@ import java.time.LocalDateTime
 data class Procedure(
     val title: Int, // название
     val isDone: Int, // выполнена ли: 0 - нет, 1 - да
-    val frequency: Int, // раз в сколько часов повторять
+    val frequency: String, // период частоты
+    val frequencyOption: Int, // ссылка на частоту
     val dateDone: LocalDateTime, // когда следует выполнить
     val notes: String, // заметки
     val reminder: LocalDateTime?, // дата и время уведомления

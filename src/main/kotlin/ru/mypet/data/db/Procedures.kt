@@ -5,7 +5,8 @@ import org.jetbrains.exposed.sql.Table
 data class CreateProcedureParams( // without "id"
     val title: Int,
     val isDone: Int,
-    val frequency: Int,
+    val frequency: String,
+    val frequencyOption: Int,
     val dateDone: String,
     val notes: String,
     val reminder: String?,
@@ -16,7 +17,8 @@ data class CreateProcedureParams( // without "id"
 data class UpdateProcedureParams(
     val title: Int,
     val isDone: Int,
-    val frequency: Int,
+    val frequency: String,
+    val frequencyOption: Int,
     val dateDone: String,
     val notes: String,
     val reminder: String?,
@@ -28,7 +30,8 @@ data class UpdateProcedureParams(
 object Procedures: Table("procedures") {
     val title = integer("title") // название
     val isDone = integer("isDone") // выполнена ли: 0 - нет, 1 - да
-    val frequency = integer("frequency") // раз в сколько часов повторять
+    val frequency = text("frequency") // раз в сколько часов повторять
+    val frequencyOption = integer("frequencyOption") // ссылка на частоту
     val dateDone = text("dateDone") // когда следует выполнить
     val notes = text("notes") // заметки
     val reminder = text("reminder").nullable() // дата и время уведомления
