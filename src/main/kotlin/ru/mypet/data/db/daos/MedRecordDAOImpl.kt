@@ -2,12 +2,12 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.models.medrecordParams.CreateMedRecordParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
 import ru.mypet.data.db.tables.MedRecords
 import ru.mypet.data.db.tables.Pets
-import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.models.MedRecord
+import ru.mypet.models.medrecordParams.CreateMedRecordParams
+import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDateTime
 
@@ -27,6 +27,9 @@ class MedRecordDAOImpl : MedRecordDAO {
             .map(::resultRowToMedRecord)
     }
 
+    override suspend fun getByPetId(id: Int): List<MedRecord> = dbQuery {
+        MedRecords.select{ MedRecords.pet eq id }.map(::resultRowToMedRecord)
+    }
 
     override suspend fun getById(id: Int): MedRecord? = dbQuery {
         MedRecords.select { MedRecords.id eq id }

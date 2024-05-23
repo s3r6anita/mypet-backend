@@ -1,11 +1,11 @@
 package ru.mypet.repository
 
-import ru.mypet.models.medrecordParams.CreateMedRecordParams
-import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.data.db.daos.MedRecordDAO
 import ru.mypet.data.db.daos.MedRecordDAOImpl
 import ru.mypet.data.db.daos.PetDAO
 import ru.mypet.data.db.daos.PetDAOImpl
+import ru.mypet.models.medrecordParams.CreateMedRecordParams
+import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.utils.BaseResponse
 
 class MedRecordRepositoryImpl(
@@ -23,6 +23,15 @@ class MedRecordRepositoryImpl(
             medRecord == null -> BaseResponse.ErrorResponse(msg = "No such medrecord")
             else -> BaseResponse.SuccessResponse(data = medRecord)
         }
+    }
+
+    override suspend fun findByPet(id: Int, requester: String): BaseResponse<Any> {
+        val medRecords = medRecordDAO.getByPetId(id)
+        val petById = petDAO.getById(id) ?: return BaseResponse.ErrorResponse(msg = "No such pet")
+        if (petById.owner != requester) {
+            return BaseResponse.ErrorResponse(msg = "This is not your pet")
+        }
+        return BaseResponse.SuccessResponse(data = medRecords)
     }
 
     override suspend fun createMedRecord(params: CreateMedRecordParams, requester: String): BaseResponse<Any> {

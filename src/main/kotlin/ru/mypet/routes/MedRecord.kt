@@ -35,6 +35,13 @@ fun Route.medRecordRoutes(
                 val result = repository.findById(id, email)
                 call.respond(result.statusCode, result)
             }
+            get("pet/{id?}") {
+                val id = call.parameters["id"]?.toInt() ?: return@get call.respond(HttpStatusCode.BadRequest)
+                val principal = call.principal<JWTPrincipal>()
+                val email = principal!!.payload.getClaim(claim).asString()
+                val result = repository.findByPet(id, email)
+                call.respond(result.statusCode, result)
+            }
             post {
                 val params = call.receive<CreateMedRecordParams>()
                 val principal = call.principal<JWTPrincipal>()
