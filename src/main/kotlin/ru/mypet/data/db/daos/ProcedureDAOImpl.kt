@@ -21,21 +21,17 @@ class ProcedureDAOImpl : ProcedureDAO {
         dateDone = LocalDateTime.parse(row[Procedures.dateDone], PetDateTimeFormatter.dateTime),
         notes = row[Procedures.notes],
         reminder = row[Procedures.reminder]?.let { LocalDateTime.parse(it, PetDateTimeFormatter.dateTime) },
-        pet  = row[Procedures.pet],
+        pet = row[Procedures.pet],
         inMedCard = row[Procedures.inMedCard],
         id = row[Procedures.id],
     )
 
-    override suspend fun getAllByOwner(email: String): List<Procedure> {
-//        val pet = dbQuery { Pets.select { Pets.owner eq email } }.map(::resultRowToPet)
-        val procedures = dbQuery {
-            Procedures.join(Pets, JoinType.LEFT, Procedures.pet, Pets.id)
-                .select { Pets.owner eq email }
-                .map(::resultRowToProcedure)
-//            Procedures.select { Procedures.id eq pet[0].id }.map(::resultRowToProcedure)
-        }
-        return procedures
+    override suspend fun getAllByOwner(email: String): List<Procedure> = dbQuery {
+        Procedures.join(Pets, JoinType.LEFT, Procedures.pet, Pets.id)
+            .select { Pets.owner eq email }
+            .map(::resultRowToProcedure)
     }
+
 
     override suspend fun insert(params: CreateProcedureParams): Procedure? = dbQuery {
         val insertStatement = Procedures.insert {
@@ -52,12 +48,12 @@ class ProcedureDAOImpl : ProcedureDAO {
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToProcedure)
     }
 
-    override suspend fun getById(id: Int): Procedure? {
-        val procedure = dbQuery {
-            Procedures.select {  Procedures.id eq id }.map(::resultRowToProcedure).singleOrNull()
-        }
-        return procedure
+    override suspend fun getById(id: Int): Procedure? = dbQuery {
+        Procedures.select { Procedures.id eq id }
+            .map(::resultRowToProcedure)
+            .singleOrNull()
     }
+
 
     override suspend fun update(params: UpdateProcedureParams): Boolean = dbQuery {
         Procedures.update({ Procedures.id eq params.id }) {

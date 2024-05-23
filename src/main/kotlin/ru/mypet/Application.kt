@@ -13,6 +13,7 @@ fun main() {
     val config = HoconApplicationConfig(ConfigFactory.load())
     val port = config.property("ktor.deployment.port").getString()
     embeddedServer(Netty, port = port.toInt()) {
+        // Мы тебя любим <3 (Тимур)
         DatabaseFactory.init(config)
         configureSerialization()
         configureSecurity()

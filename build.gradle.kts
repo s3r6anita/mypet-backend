@@ -42,7 +42,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
     implementation("org.ehcache:ehcache:$ehcache_version")
 
-//    implementation("io.ktor:ktor-server-resources:$ktor_version")
+    implementation("io.ktor:ktor-server-resources:$ktor_version")
 
 
     implementation("io.ktor:ktor-server-netty:$ktor_version")
