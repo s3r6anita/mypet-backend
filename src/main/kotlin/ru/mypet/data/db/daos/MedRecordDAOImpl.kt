@@ -2,11 +2,11 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.data.db.CreateMedRecordParams
+import ru.mypet.models.medrecordParams.CreateMedRecordParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
-import ru.mypet.data.db.MedRecords
-import ru.mypet.data.db.Pets
-import ru.mypet.data.db.UpdateMedRecordParams
+import ru.mypet.data.db.tables.MedRecords
+import ru.mypet.data.db.tables.Pets
+import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.models.MedRecord
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDateTime

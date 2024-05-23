@@ -1,31 +1,6 @@
-package ru.mypet.data.db
+package ru.mypet.data.db.tables
 
 import org.jetbrains.exposed.sql.Table
-
-data class CreateProcedureParams( // without "id"
-    val title: Int,
-    val isDone: Int,
-    val frequency: String,
-    val frequencyOption: Int,
-    val dateDone: String,
-    val notes: String,
-    val reminder: String?,
-    val pet: Int,
-    val inMedCard: Int
-)
-
-data class UpdateProcedureParams(
-    val title: Int,
-    val isDone: Int,
-    val frequency: String,
-    val frequencyOption: Int,
-    val dateDone: String,
-    val notes: String,
-    val reminder: String?,
-    val pet: Int,
-    val inMedCard: Int,
-    val id: Int
-)
 
 object Procedures: Table("procedures") {
     val title = integer("title") // название

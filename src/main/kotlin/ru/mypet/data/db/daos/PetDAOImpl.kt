@@ -2,10 +2,10 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.data.db.CreatePetParams
+import ru.mypet.models.petParams.CreatePetParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
-import ru.mypet.data.db.Pets
-import ru.mypet.data.db.UpdatePetParams
+import ru.mypet.data.db.tables.Pets
+import ru.mypet.models.petParams.UpdatePetParams
 import ru.mypet.models.Pet
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDate

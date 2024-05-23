@@ -8,6 +8,8 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import ru.mypet.data.db.tables.Procedures
+import ru.mypet.data.db.tables.Users
 
 object DatabaseFactory {
 

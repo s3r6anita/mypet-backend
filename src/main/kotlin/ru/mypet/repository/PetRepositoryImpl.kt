@@ -1,7 +1,7 @@
 package ru.mypet.repository
 
-import ru.mypet.data.db.CreatePetParams
-import ru.mypet.data.db.UpdatePetParams
+import ru.mypet.models.petParams.CreatePetParams
+import ru.mypet.models.petParams.UpdatePetParams
 import ru.mypet.data.db.daos.PetDAO
 import ru.mypet.data.db.daos.PetDAOImpl
 import ru.mypet.utils.BaseResponse

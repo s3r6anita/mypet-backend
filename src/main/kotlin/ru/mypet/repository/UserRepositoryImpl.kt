@@ -4,8 +4,8 @@ import io.ktor.http.*
 import ru.mypet.cache.InMemoryCache
 import ru.mypet.data.db.daos.UserDAO
 import ru.mypet.data.db.daos.UserDAOImpl
-import ru.mypet.models.CreateUserParams
-import ru.mypet.models.LoginUserParams
+import ru.mypet.models.userParams.CreateUserParams
+import ru.mypet.models.userParams.LoginUserParams
 import ru.mypet.models.TokenPair
 import ru.mypet.security.JwtConfig
 import ru.mypet.security.hash

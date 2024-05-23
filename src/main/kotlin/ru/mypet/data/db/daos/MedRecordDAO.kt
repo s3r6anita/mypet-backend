@@ -1,7 +1,7 @@
 package ru.mypet.data.db.daos
 
-import ru.mypet.data.db.CreateMedRecordParams
-import ru.mypet.data.db.UpdateMedRecordParams
+import ru.mypet.models.medrecordParams.CreateMedRecordParams
+import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.models.MedRecord
 
 interface MedRecordDAO {

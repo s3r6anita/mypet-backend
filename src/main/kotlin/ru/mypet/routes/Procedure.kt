@@ -9,8 +9,8 @@ import io.ktor.server.config.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.mypet.data.db.CreateProcedureParams
-import ru.mypet.data.db.UpdateProcedureParams
+import ru.mypet.models.procedureParams.CreateProcedureParams
+import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.repository.ProcedureRepository
 import ru.mypet.repository.ProcedureRepositoryImpl
 

@@ -1,7 +1,7 @@
 package ru.mypet.repository
 
-import ru.mypet.data.db.CreateProcedureParams
-import ru.mypet.data.db.UpdateProcedureParams
+import ru.mypet.models.procedureParams.CreateProcedureParams
+import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.utils.BaseResponse
 
 interface ProcedureRepository {

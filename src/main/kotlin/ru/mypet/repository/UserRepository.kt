@@ -1,7 +1,7 @@
 package ru.mypet.repository
 
-import ru.mypet.models.CreateUserParams
-import ru.mypet.models.LoginUserParams
+import ru.mypet.models.userParams.CreateUserParams
+import ru.mypet.models.userParams.LoginUserParams
 import ru.mypet.utils.BaseResponse
 
 interface UserRepository {

@@ -1,6 +1,6 @@
 package ru.mypet.data.db.daos
 
-import ru.mypet.models.CreateUserParams
+import ru.mypet.models.userParams.CreateUserParams
 import ru.mypet.models.User
 
 interface UserDAO {

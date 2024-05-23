@@ -1,4 +1,4 @@
-package ru.mypet.models
+package ru.mypet.models.userParams
 
 data class LoginUserParams(
     val email: String,

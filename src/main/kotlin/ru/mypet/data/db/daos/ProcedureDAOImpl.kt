@@ -2,11 +2,11 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.data.db.CreateProcedureParams
+import ru.mypet.models.procedureParams.CreateProcedureParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
-import ru.mypet.data.db.Pets
-import ru.mypet.data.db.Procedures
-import ru.mypet.data.db.UpdateProcedureParams
+import ru.mypet.data.db.tables.Pets
+import ru.mypet.data.db.tables.Procedures
+import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.models.Procedure
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDateTime

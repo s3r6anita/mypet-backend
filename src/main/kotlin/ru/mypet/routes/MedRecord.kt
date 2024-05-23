@@ -9,8 +9,8 @@ import io.ktor.server.config.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.mypet.data.db.CreateMedRecordParams
-import ru.mypet.data.db.UpdateMedRecordParams
+import ru.mypet.models.medrecordParams.CreateMedRecordParams
+import ru.mypet.models.medrecordParams.UpdateMedRecordParams
 import ru.mypet.repository.MedRecordRepository
 import ru.mypet.repository.MedRecordRepositoryImpl
 

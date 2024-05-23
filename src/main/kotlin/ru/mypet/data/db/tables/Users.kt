@@ -1,4 +1,4 @@
-package ru.mypet.data.db
+package ru.mypet.data.db.tables
 
 import org.jetbrains.exposed.sql.Table
 
