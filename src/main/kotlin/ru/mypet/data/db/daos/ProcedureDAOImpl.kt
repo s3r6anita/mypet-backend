@@ -2,12 +2,12 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.models.procedureParams.CreateProcedureParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
 import ru.mypet.data.db.tables.Pets
 import ru.mypet.data.db.tables.Procedures
-import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.models.Procedure
+import ru.mypet.models.procedureParams.CreateProcedureParams
+import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDateTime
 
@@ -32,6 +32,9 @@ class ProcedureDAOImpl : ProcedureDAO {
             .map(::resultRowToProcedure)
     }
 
+    override suspend fun getByPetId(id: Int): List<Procedure> = dbQuery {
+        Procedures.select { Procedures.pet eq id }.map(::resultRowToProcedure)
+    }
 
     override suspend fun insert(params: CreateProcedureParams): Procedure? = dbQuery {
         val insertStatement = Procedures.insert {

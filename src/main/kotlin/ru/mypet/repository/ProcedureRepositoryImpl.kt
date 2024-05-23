@@ -1,11 +1,11 @@
 package ru.mypet.repository
 
-import ru.mypet.models.procedureParams.CreateProcedureParams
-import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.data.db.daos.PetDAO
 import ru.mypet.data.db.daos.PetDAOImpl
 import ru.mypet.data.db.daos.ProcedureDAO
 import ru.mypet.data.db.daos.ProcedureDAOImpl
+import ru.mypet.models.procedureParams.CreateProcedureParams
+import ru.mypet.models.procedureParams.UpdateProcedureParams
 import ru.mypet.utils.BaseResponse
 
 class ProcedureRepositoryImpl(
@@ -18,6 +18,14 @@ class ProcedureRepositoryImpl(
         return BaseResponse.SuccessResponse(data = procedures)
     }
 
+    override suspend fun findByPet(id: Int, requester: String): BaseResponse<Any> {
+        val procedures = procedureDAO.getByPetId(id)
+        val petById = petDAO.getById(id) ?: return BaseResponse.ErrorResponse(msg = "No such pet")
+        if (petById.owner != requester) {
+            return BaseResponse.ErrorResponse(msg = "This is not your pet")
+        }
+        return BaseResponse.SuccessResponse(data = procedures)
+    }
 
     override suspend fun findById(id: Int, requester: String): BaseResponse<Any> {
         val procedure = procedureDAO.getById(id) ?: return BaseResponse.ErrorResponse(msg = "No such procedure")

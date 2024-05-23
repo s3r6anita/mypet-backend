@@ -9,4 +9,3 @@ object MedRecords: Table("medrecords") {
     val notes = text("notes")
     val pet = integer("pet").references(Pets.id)
 }
-

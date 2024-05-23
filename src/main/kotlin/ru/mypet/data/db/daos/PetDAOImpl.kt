@@ -2,11 +2,11 @@ package ru.mypet.data.db.daos
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import ru.mypet.models.petParams.CreatePetParams
 import ru.mypet.data.db.DatabaseFactory.dbQuery
 import ru.mypet.data.db.tables.Pets
-import ru.mypet.models.petParams.UpdatePetParams
 import ru.mypet.models.Pet
+import ru.mypet.models.petParams.CreatePetParams
+import ru.mypet.models.petParams.UpdatePetParams
 import ru.mypet.utils.PetDateTimeFormatter
 import java.time.LocalDate
 
@@ -24,11 +24,8 @@ class PetDAOImpl : PetDAO {
         owner = row[Pets.owner]
     )
 
-    override suspend fun getAllByOwner(email: String): List<Pet> {
-        val pets = dbQuery {
-            Pets.select { Pets.owner eq email}.map(::resultRowToPet)
-        }
-        return pets
+    override suspend fun getAllByOwner(email: String): List<Pet> = dbQuery {
+        Pets.select { Pets.owner eq email }.map(::resultRowToPet)
     }
 
     override suspend fun getById(id: Int): Pet? {

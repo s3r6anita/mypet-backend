@@ -28,10 +28,17 @@ fun Route.procedureRoutes(
                 call.respond(result.statusCode, result)
             }
             get("{id?}") { /** излишен (хотя возможно понадобится для экрана профиля) */
-            val id = call.parameters["id"]?.toInt() ?: return@get call.respond(HttpStatusCode.BadRequest)
+                val id = call.parameters["id"]?.toInt() ?: return@get call.respond(HttpStatusCode.BadRequest)
                 val principal = call.principal<JWTPrincipal>()
                 val email = principal!!.payload.getClaim(claim).asString()
                 val result = repository.findById(id, email)
+                call.respond(result.statusCode, result)
+            }
+            get("pet/{id?}") {
+                val id = call.parameters["id"]?.toInt() ?: return@get call.respond(HttpStatusCode.BadRequest)
+                val principal = call.principal<JWTPrincipal>()
+                val email = principal!!.payload.getClaim(claim).asString()
+                val result = repository.findByPet(id, email)
                 call.respond(result.statusCode, result)
             }
             post {
