@@ -21,7 +21,7 @@ fun Route.medRecordRoutes(
 ) {
     authenticate {
         route("/med") {
-            get {
+            get{
                 val principal = call.principal<JWTPrincipal>()
                 val email = principal!!.payload.getClaim(claim).asString()
                 val result = repository.findAllByOwner(email)
